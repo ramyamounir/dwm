@@ -16,16 +16,29 @@ static int smartgaps          = 0;        /* 1 means no outer gap when there is 
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static char *fonts[]          = { "monospace:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"  };
+// colors
+static char col_black[]       = "#1E2127";
+static char col_white[]       = "#abb2bf";
+static char col_blue[]       = "#61AFEF";
+static char col_red[]       = "#E45649";
+static char col_purple[]       = "#C678DD";
+static char col_green[]       = "#1DB954";
+static char col_yellow[]       = "#D19A66";
+
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#770000";
 static char selbgcolor[]            = "#005577";
-static char *colors[][3] = {
-       /*               fg           bg           border   */
-       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+
+static char *colors[][3]      = {
+	/*               fg         bg         border   */
+	[SchemeNorm] = { col_white, col_black, col_black},
+	[SchemeSel]  = { col_white, col_black,  col_blue},
+	/* [SchemeStatus]  = { col_white, col_black,  "#000000"}, */
+    	/* [SchemeInfoSel]  = { col_white, col_black,  "#000000"}, */
+    	/* [SchemeInfoNorm]  = { col_white, col_black,  "#000000"}, */
 };
 
 typedef struct {
@@ -161,8 +174,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_q,		spawn,		SHCMD("sysact") },
 	{ MODKEY,			XK_w,		spawn,		SHCMD("$BROWSER") },
 	{ MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") },
-	{ MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook") },
-	{ MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
+	/* { MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook") }, */
+	{ MODKEY,			XK_e,		spawn,		SHCMD("dmenubluetooth") },
+	{ MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD("dmenufixbluez") },
 	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lf") },
 	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* tile */
@@ -329,3 +343,4 @@ static Button buttons[] = {
 	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
 	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
 };
+
