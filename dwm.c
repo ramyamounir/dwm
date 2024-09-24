@@ -71,7 +71,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeTitle, SchemeLast }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -898,7 +898,7 @@ drawbar(Monitor *m)
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
-			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+			drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeTitle]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
@@ -2594,8 +2594,29 @@ load_xresources(void)
 int
 main(int argc, char *argv[])
 {
-	if (argc == 2 && !strcmp("-v", argv[1]))
-		die("dwm-"VERSION);
+	if (argc == 2) {
+		if (!strcmp("-v", argv[1])) die("dwm-"VERSION);
+		else if (!strcmp("-m", argv[1])) {
+		    int n = sizeof(dmenucmd)/sizeof(dmenucmd[0]);
+		    for (int i = 1; i < n-1; i++) {
+			if (dmenucmd[i][0] == '-') {
+			   if (dmenucmd[i][1] == 'm') {
+				printf("-m 42 ");
+				i++;
+				continue;
+			   }
+			   else if(dmenucmd[i][1] == 'f' && dmenucmd[i][2] == 'n' ) {
+			      i++;
+			      continue;
+			   }
+			}
+
+			printf("%s ", dmenucmd[i]);
+		    }
+		    printf("\n");
+		    die("");
+		}
+	}
 	else if (argc != 1)
 		die("usage: dwm [-v]");
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
