@@ -238,7 +238,7 @@ static const Key keys[] = {
 	{ MODKEY,  	                            XK_Return,      spawn,                    SHCMD(TERMINAL) },	                             // open the terminal
 	{ MODKEY,                               XK_w,           spawn,                    SHCMD("$BROWSER") },                               // open Browser
 	{ MODKEY|ShiftMask,                     XK_w,           spawn,                    SHCMD(TERMINAL " -e sudo nmtui") },                // Wifi Gui
-	{ MODKEY,                               XK_p,           spawn,                    SHCMD("passmenu") },                               // open passmenu
+	{ MODKEY,                               XK_p,           spawn,                    SHCMD("dm-pass") },                               // open passmenu
 	{ MODKEY|ShiftMask,                     XK_p,           spawn,                    SHCMD("maimpick") },                               // open passmenu
 	{ MODKEY,                               XK_m,           spawn,                    SHCMD("dmenumount") },                             // open passmenu
 	{ MODKEY|ShiftMask,                     XK_m,           spawn,                    SHCMD("dmenuumount") },                            // open passmenu
