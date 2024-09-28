@@ -200,7 +200,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,                     XK_o,           incnmaster,               {.i = -1 } },
 	{ MODKEY,                               XK_space,       zoom,                     {0} },
 	STACKKEYS(MODKEY,                                                                 focus)
-        STACKKEYS(MODKEY|ShiftMask,                                                       push)
+    STACKKEYS(MODKEY|ShiftMask,                                                       push)
 
     // Tabs Navigation
 	TAGKEYS(                                XK_1,                                                0)
