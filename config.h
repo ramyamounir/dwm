@@ -246,11 +246,8 @@ static const Key keys[] = {
 	{ MODKEY,                               XK_r,           spawn,                    SHCMD(TERMINAL " -e lf") },
 	{ MODKEY|ShiftMask,                     XK_r,           spawn,                    SHCMD(TERMINAL " -e htop") },
 	{ MODKEY|ShiftMask,                     XK_b,           spawn,                    SHCMD(TERMINAL " -e bluetuith") },
-	{ MODKEY,                               XK_minus,       spawn,                    SHCMD("pamixer --allow-boost -d 5; kill -44 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,                     XK_minus,       spawn,                    SHCMD("pamixer --allow-boost -d 15; kill -44 $(pidof dwmblocks)") },
-	{ MODKEY,                               XK_equal,       spawn,                    SHCMD("pamixer --allow-boost -i 5; kill -44 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,                     XK_equal,       spawn,                    SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof dwmblocks)") },
-                                                                                                                                        
+	{ MODKEY,                               XK_equal,       spawn,                    SHCMD("pulsemixer --change-volume +5") },
+	{ MODKEY,                               XK_minus,       spawn,                    SHCMD("pulsemixer --change-volume -5") },
 };
 
 
