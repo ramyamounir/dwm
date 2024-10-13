@@ -238,12 +238,13 @@ static const Key keys[] = {
 	{ MODKEY,  	                            XK_Return,      spawn,                    SHCMD(TERMINAL) },	                             // open the terminal
 	{ MODKEY,                               XK_w,           spawn,                    SHCMD("$BROWSER") },                               // open Browser
 	{ MODKEY|ShiftMask,                     XK_w,           spawn,                    SHCMD(TERMINAL " -e sudo nmtui") },                // Wifi Gui
-	{ MODKEY,                               XK_p,           spawn,                    SHCMD("dm-pass") },                               // open passmenu
+	{ MODKEY,                               XK_p,           spawn,                    SHCMD("dm-pass") },                                // open passmenu
 	{ MODKEY|ShiftMask,                     XK_p,           spawn,                    SHCMD("maimpick") },                               // open screenshot picker
 	{ MODKEY,                               XK_m,           spawn,                    SHCMD("dmenumount") },                             // open mounting menu
 	{ MODKEY|ShiftMask,                     XK_m,           spawn,                    SHCMD("dmenuumount") },                            // open unmounting menu
 	{ MODKEY,                               XK_BackSpace,	spawn,                    SHCMD("sysact") },                                 // Script for logging out
 	{ MODKEY,                               XK_v,           spawn,                    SHCMD("dm-vpn") },                                 // Script for vpn connections
+	{ MODKEY,                               XK_e,           spawn,                    SHCMD(TERMINAL " -e aerc") },                      // email client aerc
 	{ MODKEY,                               XK_r,           spawn,                    SHCMD(TERMINAL " -e lf") },
 	{ MODKEY|ShiftMask,                     XK_r,           spawn,                    SHCMD(TERMINAL " -e htop") },
 	{ MODKEY|ShiftMask,                     XK_b,           spawn,                    SHCMD(TERMINAL " -e bluetuith") },
