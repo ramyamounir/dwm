@@ -242,6 +242,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,                     XK_p,           spawn,                    SHCMD("maimpick") },                               // open screenshot picker
 	{ MODKEY,                               XK_m,           spawn,                    SHCMD("dmenumount") },                             // open mounting menu
 	{ MODKEY|ShiftMask,                     XK_m,           spawn,                    SHCMD("dmenuumount") },                            // open unmounting menu
+	{ MODKEY,                               XK_n,           spawn,                    SHCMD("redshift -O 4500 -b 0.8") },                // Add redshift effect (cumulative)
+	{ MODKEY|ShiftMask,                     XK_n,           spawn,                    SHCMD("redshift -x") },                            // Reset redshift
 	{ MODKEY,                               XK_BackSpace,	spawn,                    SHCMD("sysact") },                                 // Script for logging out
 	{ MODKEY,                               XK_v,           spawn,                    SHCMD("dm-vpn") },                                 // Script for vpn connections
 	{ MODKEY,                               XK_e,           spawn,                    SHCMD(TERMINAL " -e aerc") },                      // email client aerc
