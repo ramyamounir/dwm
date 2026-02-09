@@ -16,7 +16,7 @@ static int smartgaps          = 0;        /* 1 means no outer gap when there is 
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad      = 10;       /* vertical padding of bar */
-static const int sidepad      = 10;       /* horizontal padding of bar */
+static const int sidepad      = 30;       /* horizontal padding of bar */
 static const int user_bh      = 8;        /* extra bar height (total = font height + user_bh) */
 static const int ulinepad     = 5;        /* horizontal padding of underline */
 static const int ulinestroke  = 2;        /* underline thickness */
