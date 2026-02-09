@@ -67,11 +67,12 @@
 #define SPTAG(i)		((1 << LENGTH(tags)) << (i))
 #define SPTAGMASK		(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define BARW(M)                 ((M)->ww - 2 * sidepad)
 #define TRUNC(X,A,B)            (MAX((A), MIN((X), (B))))
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeTitle, SchemeLast }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeTitle, SchemeUrg, SchemeLast }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -570,7 +571,7 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else if (ev->x > (x = selmon->ww - TEXTW(stext) + lrpad)) {
+		else if (ev->x > (x = BARW(selmon) - TEXTW(stext) + lrpad)) {
 			click = ClkStatusText;
 
 			char *text = rawstext;
@@ -715,7 +716,7 @@ configurenotify(XEvent *e)
 				for (c = m->clients; c; c = c->next)
 					if (c->isfullscreen)
 						resizeclient(c, m->mx, m->my, m->mw, m->mh);
-				XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
+				XMoveResizeWindow(dpy, m->barwin, m->wx + sidepad, m->by, m->ww - 2 * sidepad, bh);
 			}
 			focus(NULL);
 			arrange(NULL);
@@ -869,11 +870,13 @@ drawbar(Monitor *m)
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
+	int bw = BARW(m);
+
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+		drw_text(drw, bw - tw, 0, tw, bh, 0, stext, 0);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -885,18 +888,21 @@ drawbar(Monitor *m)
 	for (i = 0; i < LENGTH(tags); i++) {
 		/* do not draw vacant tags */
 		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
-		continue;
+			continue;
 
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		/* if (m->tagset[m->seltags] & 1 << i)
+			drw_rect(drw, x + ulinepad, bh - ulinestroke - ulinevoffset,
+			         w - (ulinepad * 2), ulinestroke, 1, 0); */
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
-	if ((w = m->ww - tw - x) > bh) {
+	if ((w = bw - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeTitle]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
@@ -907,7 +913,7 @@ drawbar(Monitor *m)
 			drw_rect(drw, x, 0, w, bh, 1, 1);
 		}
 	}
-	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
+	drw_map(drw, m->barwin, 0, 0, bw, bh);
 }
 
 void
@@ -1784,7 +1790,7 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + 2;
+	bh = drw->fonts->h + user_bh;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -1949,7 +1955,7 @@ togglebar(const Arg *arg)
 {
 	selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
-	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
+	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + sidepad, selmon->by, selmon->ww - 2 * sidepad, bh);
 	arrange(selmon);
 }
 
@@ -2118,7 +2124,7 @@ updatebars(void)
 	for (m = mons; m; m = m->next) {
 		if (m->barwin)
 			continue;
-		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
+		m->barwin = XCreateWindow(dpy, root, m->wx + sidepad, m->by, m->ww - 2 * sidepad, bh, 0, DefaultDepth(dpy, screen),
 				CopyFromParent, DefaultVisual(dpy, screen),
 				CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
@@ -2133,11 +2139,11 @@ updatebarpos(Monitor *m)
 	m->wy = m->my;
 	m->wh = m->mh;
 	if (m->showbar) {
-		m->wh -= bh;
-		m->by = m->topbar ? m->wy : m->wy + m->wh;
-		m->wy = m->topbar ? m->wy + bh : m->wy;
+		m->wh -= bh + vertpad * 2;
+		m->by = m->topbar ? m->wy + vertpad : m->wy + m->wh - vertpad;
+		m->wy = m->topbar ? m->wy + bh + vertpad * 2 : m->wy;
 	} else
-		m->by = -bh;
+		m->by = -bh - vertpad;
 }
 
 void

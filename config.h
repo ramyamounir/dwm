@@ -15,18 +15,24 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
+static const int vertpad      = 10;       /* vertical padding of bar */
+static const int sidepad      = 10;       /* horizontal padding of bar */
+static const int user_bh      = 8;        /* extra bar height (total = font height + user_bh) */
+static const int ulinepad     = 5;        /* horizontal padding of underline */
+static const int ulinestroke  = 2;        /* underline thickness */
+static const int ulinevoffset = 0;        /* distance from bottom of bar */
 /*static char *fonts[]          = { "monospace:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"  };*/
 static char *fonts[]            = {
-    "SF Mono:size=10:style=SemiBold",
-    "SF Pro Display Medium:size=11",
+    "SF Mono:size=11:style=SemiBold",
+    "SF Pro Display Medium:size=12",
     "Symbols Nerd Font:size=12",
     "Symbols Nerd Font Mono:size=12"
 };
-static const char dmenufont[]         = "SF Mono:size=10:style=SemiBold";
+static const char dmenufont[]         = "SF Mono:size=11:style=SemiBold";
 
 
 // colors
-static const char bar_colour[]        = "#1E2127"; 
+static const char bar_colour[]        = "#1E2127";
 static const char bar_font_colour[]   = "#abb2bf";
 static const char frame_colour[]      = "#E28743";
 static const char frame_font_colour[] = "#1E2127";
@@ -34,6 +40,9 @@ static const char frame_border_colour[] = "#E28743";
 static const char bg_frame_colour[]   = "#1E2127";
 static const char titlebgcolor[]      = "#1E2127";
 static const char titlefgcolor[]      = "#abb2bf";
+static const char urgfgcolor[]        = "#E06C75";
+static const char urgbgcolor[]        = "#1E2127";
+static const char urgbordercolor[]    = "#E06C75";
 
 static const char dmenu_height[]      = "10";         // number of lines
 static const char dmenu_line_height[] = "25";         // line height
@@ -49,10 +58,11 @@ static const char dmenu_highlight_search_font[]  = "#abb2bf";
 
 
 static char *colors[][3]        = {
-	//               fg         bg         border  
-        [SchemeNorm]  = { bar_font_colour, bar_colour, bg_frame_colour },
- 	[SchemeSel]   = { frame_font_colour, frame_colour, frame_border_colour  },
- 	[SchemeTitle] = { titlefgcolor, titlebgcolor, titlebgcolor  },
+	/*               fg         bg         border */
+	[SchemeNorm]  = { bar_font_colour, bar_colour, bg_frame_colour },
+	[SchemeSel]   = { frame_font_colour, frame_colour, frame_border_colour },
+	[SchemeTitle] = { titlefgcolor, titlebgcolor, titlebgcolor },
+	[SchemeUrg]   = { urgfgcolor, urgbgcolor, urgbordercolor },
 };
 
 typedef struct {
@@ -73,10 +83,11 @@ static const unsigned int baralpha = 0xE0U;
 static const unsigned int borderalpha = 0xA0U;
 
 static const unsigned int alphas[][3]      = {
-         /*               fg      bg        border*/
-        [SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
-	[SchemeTitle]  = { OPAQUE, baralpha, borderalpha  },
+	/*               fg      bg        border*/
+	[SchemeNorm]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]   = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitle] = { OPAQUE, baralpha, borderalpha },
+	[SchemeUrg]   = { OPAQUE, baralpha, borderalpha },
 };
 
 
