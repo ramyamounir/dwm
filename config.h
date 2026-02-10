@@ -116,10 +116,10 @@ static int resizehints = 0;    /* 1 means respect size hints in tiled resizals *
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
 static const Layout layouts[] = {
-    { "󰯌",          tile                   },  /* Default: Master on left, slaves on right */
+    { "",          centeredfloatingmaster },  /* Default: Master floats in center */
+    { "󰯌",          tile                   },  /* Master on left, slaves on right */
     { "󱂩",          bstack                 },  /* Master on top, slaves on bottom */
     { "󰼀",          centeredmaster         },  /* Master in middle, slaves on sides */
-    { "",          centeredfloatingmaster }   /* Same but master floats */
 };
 
 /* key definitions */
@@ -204,10 +204,10 @@ ResourcePref resources[] = {
 static const Key keys[] = {
 
     // Navigation 
-	{ MODKEY,                               XK_t,           setlayout,                {.v = &layouts[0]} },
-	{ MODKEY,                               XK_y,           setlayout,                {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,                     XK_t,           setlayout,                {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,                     XK_y,           setlayout,                {.v = &layouts[3]} },
+	{ MODKEY,                               XK_t,           setlayout,                {.v = &layouts[1]} },
+	{ MODKEY,                               XK_y,           setlayout,                {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,                     XK_t,           setlayout,                {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,                     XK_y,           setlayout,                {.v = &layouts[0]} },
 	{ MODKEY,                               XK_o,           incnmaster,               {.i = +1 } },
 	{ MODKEY|ShiftMask,                     XK_o,           incnmaster,               {.i = -1 } },
 	{ MODKEY,                               XK_space,       zoom,                     {0} },
