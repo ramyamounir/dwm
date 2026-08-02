@@ -259,6 +259,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,                     XK_n,           spawn,                    SHCMD("redshift -x") },                            // Reset redshift
 	{ MODKEY,                               XK_BackSpace,	spawn,                    SHCMD("sysact") },                                 // Script for logging out
 	{ MODKEY,                               XK_v,           spawn,                    SHCMD("dm-vpn") },                                 // Script for vpn connections
+	{ MODKEY|ShiftMask,                     XK_v,           spawn,                    SHCMD("dm-tailscale") },                           // Script for tailscale connections
 	{ MODKEY,                               XK_e,           spawn,                    SHCMD(TERMINAL " -e aerc") },                      // email client aerc
 	{ MODKEY,                               XK_r,           spawn,                    SHCMD(TERMINAL " -e lf") },
 	{ MODKEY|ShiftMask,                     XK_r,           spawn,                    SHCMD(TERMINAL " -e htop") },
